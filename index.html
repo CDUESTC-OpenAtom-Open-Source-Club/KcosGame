@@ -12,6 +12,8 @@
 /* ============================================================================
    科成-开放原子开源社团 · 开源小游戏平台
    ----------------------------------------------------------------------------
+   这个页面只做一件事：把三款游戏集成到一处。除了游戏本身，不放别的板块。
+
    视觉基线（三款游戏现有 token 的并集，不新造色相）：
      底幕深蓝  跑酷 #03060f / #070d1c   +   TenDispatch #07111F   -> --ink
      面板深蓝  TenDispatch panel #0B1728                        -> --panel
@@ -21,7 +23,7 @@
      科技蓝    开源冒险岛 blue #2563eb 降饱和                    -> --blue   环境光
    统一规则：
      1. 主按钮一律 --cyan，不按游戏换色 —— 这是"三款游戏同属一个平台"的直接证据。
-     2. 每张游戏卡只在"封面光晕 + 封面描边"两处露出自身色相，其余完全同构。
+     2. 每张卡只在"封面光晕 + 封面描边"两处露出自身色相，其余完全同构。
      3. 三张卡片 DOM 骨架逐字相同，只差 data-accent（blue / cyan / gold）。
    零依赖：无外链字体、无 CDN、无外部图片、无 emoji，双击即可打开。
    ============================================================================ */
@@ -48,6 +50,9 @@
 
   --accent: #32c7f4;
   --accent-soft: rgba(50, 199, 244, .14);
+  /* 封面统一罩一层深底：冒险岛是浅底白卡，直接嵌进来会和另外两张割裂，
+     罩上这层之后三张封面就落在同一个明度上，只靠色相区分。 */
+  --cover-veil: rgba(4, 11, 20, .58);
 
   --r-lg: 14px;
   --r-md: 10px;
@@ -86,7 +91,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* 全页共用的网格底纹：三张卡片封面用的是同一套网格，尺度更小 */
+/* 全页共用的网格底纹：三张封面用的是同一套网格，尺度更小 */
 body::before {
   content: "";
   position: fixed;
@@ -202,11 +207,9 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   transition: color .18s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
 }
 .topnav a:hover { color: var(--text); background: rgba(255, 255, 255, .045); border-color: var(--line); }
-.topnav a[aria-current="true"] { color: var(--cyan); border-color: rgba(50, 199, 244, .38); background: var(--accent-soft); }
 
 /* ------------------------------------------------------------------ 区带 --- */
-.section { padding: clamp(52px, 7vw, 92px) 0; }
-.section + .section { border-top: 1px solid var(--line); }
+.section { padding: clamp(44px, 6vw, 76px) 0 clamp(48px, 6vw, 84px); }
 
 .kicker {
   display: inline-flex;
@@ -227,12 +230,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   box-shadow: 0 0 10px var(--cyan);
 }
 
-.sec-head { max-width: 68ch; margin-bottom: clamp(26px, 3.4vw, 40px); }
-.sec-head h2 { margin: 12px 0 10px; font-size: clamp(24px, 3.2vw, 34px); }
-.sec-head p { color: var(--muted); font-size: 15.5px; }
-
 /* ------------------------------------------------------------------ Hero --- */
-.hero { padding-top: clamp(44px, 6vw, 76px); }
+.hero { padding-top: clamp(40px, 5vw, 68px); }
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
@@ -260,7 +259,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   display: flex;
   flex-wrap: wrap;
   gap: 10px 30px;
-  margin-top: 34px;
+  margin-top: 32px;
   padding-top: 22px;
   border-top: 1px solid var(--line);
 }
@@ -297,12 +296,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   box-shadow: 0 10px 26px rgba(50, 199, 244, .22);
 }
 .btn-primary:hover { background: #59d6fb; transform: translateY(-2px); box-shadow: 0 14px 32px rgba(50, 199, 244, .32); }
-.btn-ghost {
-  background: rgba(255, 255, 255, .035);
-  border-color: var(--line-2);
-  color: var(--text);
-}
-.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
 .btn .arw { flex: none; transition: transform .2s var(--ease); }
 .btn:hover .arw { transform: translateX(3px); }
 
@@ -343,7 +336,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   overflow: hidden;
   transition: transform .24s var(--ease), border-color .24s var(--ease), box-shadow .24s var(--ease);
 }
-.card[data-accent="blue"] { --accent: var(--blue); --accent-soft: rgba(90, 155, 255, .14); }
+.card[data-accent="blue"] { --accent: var(--blue); --accent-soft: rgba(90, 155, 255, .16); }
 .card[data-accent="cyan"] { --accent: var(--cyan); --accent-soft: rgba(50, 199, 244, .14); }
 .card[data-accent="gold"] { --accent: var(--gold); --accent-soft: rgba(255, 209, 102, .13); }
 
@@ -398,7 +391,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 }
 .card-desc { margin-top: 12px; color: var(--muted); font-size: 14.5px; line-height: 1.72; }
 
-/* 封面：三张卡共用同一套网格 + 四角注册角标 + 顶边描边，只换色相 */
+/* 封面：三张卡共用同一套网格 + 四角注册角标 + 统一深底罩，
+   只换色相。深底罩是为了让浅底的冒险岛与另外两款落在同一明度上。 */
 .cover {
   position: relative;
   height: 122px;
@@ -412,23 +406,21 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, .028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, .028) 1px, transparent 1px);
-  background-size: 26px 26px;
+  z-index: 2;
+  background: var(--cover-veil);
 }
-/* 每张卡唯一露出自身色相的地方之二：封面光晕 */
 .cover::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 3;
   background: radial-gradient(80% 120% at 18% 6%, var(--accent-soft), transparent 66%);
 }
 .cover svg { position: relative; z-index: 1; width: 100%; height: 100%; display: block; }
 .cover .corner {
   position: absolute;
   width: 9px; height: 9px;
-  z-index: 2;
+  z-index: 4;
   border: 1px solid var(--accent);
   opacity: .65;
 }
@@ -460,93 +452,68 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 .specs dd { margin: 0; color: var(--muted); }
 
 .card-foot { margin-top: auto; padding: 18px 20px 20px; }
-.src-path {
-  margin-bottom: 14px;
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--dim);
-  overflow-wrap: anywhere;
-}
-.src-path b { color: var(--muted); font-weight: 400; }
 .card .btn { width: 100%; }
 
-/* -------------------------------------------------- 技术底座 / 架构带 ---- */
-.arch {
+/* --------------------------------------------------------------- 页脚 ---- */
+.footer {
+  border-top: 1px solid var(--line);
+  background: rgba(4, 11, 20, .6);
+  padding: clamp(28px, 3.4vw, 40px) 0 34px;
+}
+.foot-grid {
   display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
-  gap: clamp(24px, 3.4vw, 48px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(18px, 3vw, 40px);
+  align-items: center;
 }
-.arch-figure {
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: linear-gradient(168deg, var(--panel), var(--ink-2));
+.foot-brand { display: flex; gap: 13px; align-items: center; }
+.foot-brand img {
+  width: 44px; height: 44px; flex: none;
+  border-radius: 11px;
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  object-fit: contain;
 }
-.arch-figure svg { width: 100%; height: auto; display: block; }
-.arch-list { margin-top: 22px; border-top: 1px solid var(--line); }
-.arch-list > li {
-  display: grid;
-  grid-template-columns: 118px minmax(0, 1fr);
-  gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
+.foot-brand b { display: block; font-size: 15.5px; }
+.foot-brand span { display: block; margin-top: 3px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--dim); }
+.foot-meta {
+  text-align: right;
+  font-size: 12.5px;
+  color: var(--dim);
+  line-height: 1.9;
 }
-.arch-list b {
+.foot-meta b { color: var(--muted); font-weight: 400; }
+
+/* 社团官网与 GitHub：页脚唯一的两个站外入口。
+   纯文字链接（不用图标），离线打开时点了不通也不影响页面其余部分。 */
+.foot-links { display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: flex-end; }
+.foot-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-family: var(--mono);
   font-size: 12.5px;
-  color: var(--cyan);
-  letter-spacing: .06em;
-  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color .18s var(--ease), border-color .18s var(--ease);
 }
-.arch-list p { color: var(--muted); font-size: 14px; }
-
-/* ------------------------------------------------------- 开源协作流程 ---- */
-.flow {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
-  counter-reset: flow;
-}
-.flow li {
-  position: relative;
-  padding: 16px 15px 18px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: linear-gradient(170deg, var(--panel), var(--ink-2));
-}
-.flow li::before {
-  counter-increment: flow;
-  content: "0" counter(flow);
-  display: block;
-  margin-bottom: 9px;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--cyan);
-  letter-spacing: .14em;
-}
-.flow b { display: block; font-size: 14.5px; }
-.flow span { display: block; margin-top: 5px; font-size: 12.5px; color: var(--dim); line-height: 1.6; }
-.flow li:last-child { border-color: rgba(255, 209, 102, .4); }
-.flow li:last-child::before { color: var(--gold); }
-.flow-note { margin-top: 20px; color: var(--muted); font-size: 14px; }
+.foot-links a:hover { color: var(--cyan); border-bottom-color: rgba(50, 199, 244, .5); }
+.foot-links a .arw { flex: none; transition: transform .18s var(--ease); }
+.foot-links a:hover .arw { transform: translate(2px, -2px); }
+.foot-links + .foot-meta { margin-top: 10px; }
 
 /* ------------------------------------------------------------- 响应式 ---- */
 @media (max-width: 1000px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-figure { order: -1; }
   .games { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .arch { grid-template-columns: minmax(0, 1fr); }
-  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .foot-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 680px) {
-  .topnav { display: none; }
+  .topnav a:not(:first-child) { display: none; }
   .games { grid-template-columns: minmax(0, 1fr); }
-  .flow { grid-template-columns: minmax(0, 1fr); }
   .foot-grid { grid-template-columns: minmax(0, 1fr); }
-  .arch-list > li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .foot-meta { text-align: left; }
   .cover { height: 104px; }
 }
 
@@ -576,8 +543,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
     </a>
     <nav class="topnav" aria-label="页面导航">
       <a href="#games">三款游戏</a>
-      <a href="#stack">技术底座</a>
-      <a href="#workflow">开源协作</a>
     </nav>
   </div>
 </header>
@@ -591,28 +556,27 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 
         <div>
           <span class="kicker">OPEN SOURCE GAME PLATFORM</span>
-          <h1>把开源，<br /><span class="grad">跑成一条流水线</span></h1>
+          <h1>三款游戏，<br /><span class="grad">一个入口</span></h1>
           <p class="hero-lede">
-            三款开源主题小游戏，共用一套调度台的视觉语言与同一个技术底座。
-            <strong>全部自托管在本站</strong>，没有外部依赖、没有构建步骤、没有注册登录——点开哪个就直接开局。
+            开源冒险岛、开源跑酷、OpenTenBase 数据调度中心，集中在这一页里。
+            <strong>全部自托管</strong>，没有外部依赖、没有注册登录——点开哪个就直接开局。
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#games">
               选择一款游戏开始
               <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a class="btn btn-ghost" href="#stack">查看技术底座</a>
           </div>
 
           <div class="stats">
-            <div class="stat"><b>03</b><span>款自托管游戏</span></div>
+            <div class="stat"><b>03</b><span>款游戏直接开玩</span></div>
             <div class="stat"><b>00</b><span>个外部依赖</span></div>
-            <div class="stat"><b>GTM·CN·DN</b><span>OpenTenBase 架构</span></div>
+            <div class="stat"><b>00</b><span>步注册或登录</span></div>
           </div>
         </div>
 
         <figure class="hero-figure">
-          <svg viewBox="0 0 520 320" role="img" aria-label="三款游戏汇入同一条调度流水线">
+          <svg viewBox="0 0 520 320" role="img" aria-label="三款游戏汇入同一个入口">
             <defs>
               <linearGradient id="hflow" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0" stop-color="#32c7f4" stop-opacity=".25" />
@@ -658,7 +622,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
             <g>
               <rect x="258" y="106" width="112" height="102" rx="7" fill="#10243a" stroke="#32c7f4" />
               <text x="314" y="146" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13.5" font-weight="700" fill="#32c7f4">KCOS</text>
-              <text x="314" y="166" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" letter-spacing="1.6" fill="#7e97ac">DISPATCH</text>
+              <text x="314" y="166" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" letter-spacing="1.6" fill="#7e97ac">PLATFORM</text>
               <g stroke="#32c7f4" stroke-width="1.2" opacity=".5">
                 <path d="M270 118v8M276 118v5M282 118v11" />
               </g>
@@ -669,11 +633,11 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
             <path d="M428 152l7 5-7 5" fill="none" stroke="#ffd166" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
             <g>
               <rect x="440" y="132" width="80" height="50" rx="6" fill="#0b1728" stroke="#ffd166" opacity=".9" />
-              <text x="480" y="153" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#ffd166">OpenTenBase</text>
-              <text x="480" y="169" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#7e97ac">活动现场</text>
+              <text x="480" y="153" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#ffd166">直接开玩</text>
+              <text x="480" y="169" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#7e97ac">无需注册</text>
             </g>
           </svg>
-          <figcaption class="figure-cap">三款游戏 · 一条流水线 · 同一个开源主题</figcaption>
+          <figcaption class="figure-cap">三款游戏 · 一个入口</figcaption>
         </figure>
 
       </div>
@@ -683,11 +647,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   <!-- ======================================================== 三款游戏 === -->
   <section class="section" id="games">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="kicker">GAMES</span>
-        <h2>三款小游戏</h2>
-        <p>难度、时长、玩法各不相同，但都指向同一件事：用游戏把开源协议、开源生态与分布式数据库讲清楚。三张卡片的版式完全一致，只有角落的配色告诉你它们各自的出身。</p>
-      </div>
 
       <ul class="games">
 
@@ -706,22 +665,22 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 
           <div class="cover" aria-hidden="true">
             <svg viewBox="0 0 300 122">
-              <rect x="96" y="26" width="108" height="76" rx="6" fill="none" stroke="#5a9bff" stroke-width="1.1" opacity=".55" />
-              <rect x="106" y="36" width="40" height="26" rx="3" fill="none" stroke="#5a9bff" stroke-width="1.3" />
-              <rect x="154" y="36" width="40" height="26" rx="3" fill="none" stroke="#5a9bff" stroke-width="1.3" />
-              <rect x="106" y="70" width="40" height="22" rx="3" fill="none" stroke="#2e5b7d" stroke-width="1.3" stroke-dasharray="3 3" />
-              <rect x="154" y="70" width="40" height="22" rx="3" fill="none" stroke="#2e5b7d" stroke-width="1.3" stroke-dasharray="3 3" />
-              <rect x="30" y="44" width="34" height="24" rx="3" fill="#10243a" stroke="#5a9bff" stroke-width="1.3" />
+              <rect x="96" y="26" width="108" height="76" rx="6" fill="none" stroke="#7fb4ff" stroke-width="1.1" opacity=".6" />
+              <rect x="106" y="36" width="40" height="26" rx="3" fill="none" stroke="#5a9bff" stroke-width="1.4" />
+              <rect x="154" y="36" width="40" height="26" rx="3" fill="none" stroke="#5a9bff" stroke-width="1.4" />
+              <rect x="106" y="70" width="40" height="22" rx="3" fill="none" stroke="#3c5f8a" stroke-width="1.3" stroke-dasharray="3 3" />
+              <rect x="154" y="70" width="40" height="22" rx="3" fill="none" stroke="#3c5f8a" stroke-width="1.3" stroke-dasharray="3 3" />
+              <rect x="30" y="44" width="34" height="24" rx="3" fill="#14304f" stroke="#5a9bff" stroke-width="1.4" />
               <path d="M64 56h30" stroke="#5a9bff" stroke-width="1.3" stroke-dasharray="4 3" />
               <path d="M90 51l6 5-6 5" fill="none" stroke="#5a9bff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-              <rect x="30" y="78" width="34" height="24" rx="3" fill="#10243a" stroke="#2e5b7d" stroke-width="1.3" />
-              <path d="M64 90h30" stroke="#2e5b7d" stroke-width="1.3" stroke-dasharray="4 3" />
-              <g stroke="#ffd166" stroke-width="1.2" opacity=".85">
+              <rect x="30" y="78" width="34" height="24" rx="3" fill="#14304f" stroke="#3c5f8a" stroke-width="1.3" />
+              <path d="M64 90h30" stroke="#3c5f8a" stroke-width="1.3" stroke-dasharray="4 3" />
+              <g stroke="#ffd166" stroke-width="1.3" opacity=".9">
                 <path d="M236 46l7 12h-14z" fill="none" />
                 <path d="M236 66l7 12h-14z" fill="none" />
               </g>
-              <path d="M212 62h18" stroke="#2e5b7d" stroke-width="1.2" stroke-dasharray="3 3" />
-              <g fill="#ffd166" opacity=".9">
+              <path d="M212 62h18" stroke="#3c5f8a" stroke-width="1.2" stroke-dasharray="3 3" />
+              <g fill="#ffd166" opacity=".95">
                 <circle cx="256" cy="98" r="1.8" />
                 <circle cx="268" cy="88" r="1.4" />
                 <circle cx="248" cy="82" r="1.2" />
@@ -738,7 +697,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           </dl>
 
           <div class="card-foot">
-            <p class="src-path"><b>本机源码目录</b> ./kaiyuanmaoxiandao/</p>
             <a class="btn btn-primary" href="./game-maze/index.html">
               开始冒险
               <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -765,11 +723,11 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
               <g stroke="#2e5b7d" stroke-width="1.2" stroke-dasharray="5 5">
                 <path d="M22 88h256" />
               </g>
-              <rect x="46" y="74" width="22" height="14" rx="2" fill="#10243a" stroke="#2e5b7d" stroke-width="1.2" />
-              <rect x="96" y="66" width="26" height="22" rx="2" fill="#10243a" stroke="#ff625c" stroke-width="1.3" />
+              <rect x="46" y="74" width="22" height="14" rx="2" fill="#14304f" stroke="#2e5b7d" stroke-width="1.2" />
+              <rect x="96" y="66" width="26" height="22" rx="2" fill="#14304f" stroke="#ff625c" stroke-width="1.4" />
               <path d="M109 66v-9" stroke="#ff625c" stroke-width="1.3" />
-              <rect x="150" y="78" width="30" height="10" rx="2" fill="#10243a" stroke="#2e5b7d" stroke-width="1.2" />
-              <rect x="206" y="70" width="22" height="18" rx="2" fill="#10243a" stroke="#ff9f43" stroke-width="1.3" />
+              <rect x="150" y="78" width="30" height="10" rx="2" fill="#14304f" stroke="#2e5b7d" stroke-width="1.2" />
+              <rect x="206" y="70" width="22" height="18" rx="2" fill="#14304f" stroke="#ff9f43" stroke-width="1.4" />
               <g fill="#ffd166" opacity=".95">
                 <circle cx="70" cy="50" r="2.4" />
                 <circle cx="132" cy="38" r="2" />
@@ -794,7 +752,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           </dl>
 
           <div class="card-foot">
-            <p class="src-path"><b>本机源码目录</b> ./paoku/</p>
             <a class="btn btn-primary" href="./game-parkour/index.html">
               开始跑酷
               <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -812,27 +769,27 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           <div class="card-body">
             <h3>OpenTenBase 数据调度中心</h3>
             <p class="card-sub">TenDispatch</p>
-            <p class="card-desc">九十分钟的调度官体验：给三个 DN 分流、判断分片表还是复制表，用决策速度冲 Combo 与排行榜。</p>
+            <p class="card-desc">扮演首席调度官：给三个 DN 分流、判断分片表还是复制表，在 14 波决策里冲 Combo 与排行榜。</p>
           </div>
 
           <div class="cover" aria-hidden="true">
             <svg viewBox="0 0 300 122">
               <path d="M150 30v18" stroke="#2e5b7d" stroke-width="1.3" />
               <path d="M62 78V62q0-8 8-8h160q8 0 8 8v16" fill="none" stroke="#2e5b7d" stroke-width="1.3" />
-              <rect x="126" y="14" width="48" height="18" rx="3" fill="#10243a" stroke="#ffd166" stroke-width="1.3" />
+              <rect x="126" y="14" width="48" height="18" rx="3" fill="#14304f" stroke="#ffd166" stroke-width="1.4" />
               <text x="150" y="27" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#ffd166">GTM</text>
-              <rect x="126" y="48" width="48" height="22" rx="3" fill="#10243a" stroke="#32c7f4" stroke-width="1.4" />
+              <rect x="126" y="48" width="48" height="22" rx="3" fill="#14304f" stroke="#32c7f4" stroke-width="1.5" />
               <text x="150" y="63" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" fill="#32c7f4">CN</text>
               <g>
-                <rect x="46" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#32c7f4" stroke-width="1.3" />
+                <rect x="46" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#32c7f4" stroke-width="1.4" />
                 <text x="72" y="95" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8.5" fill="#a9c2d6">DN-01</text>
               </g>
               <g>
-                <rect x="124" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#ff9f43" stroke-width="1.3" />
+                <rect x="124" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#ff9f43" stroke-width="1.4" />
                 <text x="150" y="95" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8.5" fill="#a9c2d6">DN-02</text>
               </g>
               <g>
-                <rect x="202" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#32c7f4" stroke-width="1.3" />
+                <rect x="202" y="78" width="52" height="26" rx="3" fill="#0b1728" stroke="#32c7f4" stroke-width="1.4" />
                 <text x="228" y="95" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8.5" fill="#a9c2d6">DN-03</text>
               </g>
               <g fill="#32c7f4">
@@ -855,7 +812,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           </dl>
 
           <div class="card-foot">
-            <p class="src-path"><b>本机源码目录</b> ./TenDispatch/</p>
             <a class="btn btn-primary" href="./game-tenbase/index.html">
               开始调度
               <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -867,182 +823,37 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
     </div>
   </section>
 
-  <!-- ======================================================== 技术底座 === -->
-  <section class="section" id="stack">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="kicker">OPENTENBASE</span>
-        <h2>三款游戏脚下的技术底座</h2>
-        <p>三款游戏讲的其实是同一套架构。GTM 管全局事务、CN 负责协调、DN 存数据并算结果——调度中心把它画成了物流场景，另外两款则把它拆成了可拖拽的组件与可收集的徽章。</p>
-      </div>
-
-      <div class="arch">
-        <figure class="arch-figure">
-          <svg viewBox="0 0 420 220" role="img" aria-label="OpenTenBase 的 GTM、CN 与 DN 结构示意">
-            <g stroke="#1e3a52" stroke-width="1" opacity=".5">
-              <path d="M0 44h420M0 110h420M0 176h420" />
-            </g>
-
-            <rect x="150" y="14" width="120" height="34" rx="4" fill="#10243a" stroke="#ffd166" stroke-width="1.3" />
-            <text x="210" y="30" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#ffd166">GTM</text>
-            <text x="210" y="42" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8.5" fill="#7e97ac">全局事务管理</text>
-
-            <path d="M210 48v20" stroke="#ffd166" stroke-width="1.4" stroke-dasharray="3 3" />
-
-            <rect x="150" y="68" width="120" height="40" rx="4" fill="#10243a" stroke="#32c7f4" stroke-width="1.4" />
-            <text x="210" y="86" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#32c7f4">CN</text>
-            <text x="210" y="99" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8.5" fill="#7e97ac">协调节点 · 分发与汇总</text>
-
-            <path d="M210 108v14" stroke="#32c7f4" stroke-width="1.4" />
-            <path d="M60 122h300" stroke="#32c7f4" stroke-width="1.4" />
-            <g stroke="#32c7f4" stroke-width="1.4">
-              <path d="M60 122v14M210 122v14M360 122v14" />
-            </g>
-
-            <g>
-              <rect x="18" y="136" width="84" height="42" rx="4" fill="#0b1728" stroke="#33c78a" stroke-width="1.3" />
-              <text x="60" y="154" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#33c78a">DN-01</text>
-              <text x="60" y="167" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" fill="#7e97ac">数据节点</text>
-            </g>
-            <g>
-              <rect x="168" y="136" width="84" height="42" rx="4" fill="#0b1728" stroke="#ff9f43" stroke-width="1.3" />
-              <text x="210" y="154" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#ff9f43">DN-02</text>
-              <text x="210" y="167" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" fill="#7e97ac">高负载预警</text>
-            </g>
-            <g>
-              <rect x="318" y="136" width="84" height="42" rx="4" fill="#0b1728" stroke="#33c78a" stroke-width="1.3" />
-              <text x="360" y="154" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#33c78a">DN-03</text>
-              <text x="360" y="167" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" fill="#7e97ac">数据节点</text>
-            </g>
-
-            <rect x="18" y="192" width="384" height="22" rx="4" fill="#0b1728" stroke="#1e3a52" />
-            <text x="210" y="207" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#a9c2d6">分片表 · 复制表 · HTAP 混合负载 · 跨节点 JOIN</text>
-          </svg>
-          <figcaption class="figure-cap">OpenTenBase 分布式架构</figcaption>
-        </figure>
-
-        <div>
-          <ul class="arch-list">
-            <li><b>GTM</b><p>全局事务管理器，负责让跨节点的事务一起成功或者一起回滚。调度中心把它画成一条自动播放的同步波纹。</p></li>
-            <li><b>CN</b><p>协调节点，接收请求、生成执行计划、把数据分发到 DN 再汇总结果。冒险岛里它是一块可以拖进方舟的组件。</p></li>
-            <li><b>DN</b><p>数据节点，真正存数据、算结果的地方。三个 DN 的负载是否均衡，直接决定调度中心那一局的成败。</p></li>
-            <li><b>分片表</b><p>把大表按规则拆到多个 DN，写入分散、容量可扩。数据量大且持续写入时选它。</p></li>
-            <li><b>复制表</b><p>每个 DN 存一份完整副本，查询不用跨节点搬运。表小且被高频读取时选它。</p></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================== 开源协作 === -->
-  <section class="section" id="workflow">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="kicker">WORKFLOW</span>
-        <h2>开源协作，从 Fork 到合入</h2>
-        <p>五步链路在三款游戏里反复出现：冒险岛把它做成了一条可解锁的协作凭证序列。这里把同一套词汇抽出来，作为平台通用的流程基线。</p>
-      </div>
-
-      <ol class="flow">
-        <li><b>Fork 上游仓库</b><span>把项目复制到自己的账号下</span></li>
-        <li><b>创建特性分支</b><span>一个分支只做一件事</span></li>
-        <li><b>规范提交 commit</b><span>写清动机，而不只是改了什么</span></li>
-        <li><b>发起 Pull Request</b><span>描述变更、附上复现步骤</span></li>
-        <li><b>CI 检查与评审合入</b><span>测试通过、评审通过才进入主干</span></li>
-      </ol>
-
-      <p class="flow-note">本平台同样遵循这条链路：三款游戏的源码归各自上游目录独立维护，本仓库只做门户与自托管发布副本。</p>
-    </div>
-  </section>
-
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <img src="./logo.png" alt="科成-开放原子开源社团标志" width="46" height="46" />
+        <img src="./logo.png" alt="科成-开放原子开源社团标志" width="44" height="44" />
         <div>
           <b>科成-开放原子开源社团</b>
           <span>KCOS · OPENTENBASE</span>
-          <p>三款开源小游戏的角色设定、玩法与视觉均由社团成员完成，用于开源文化与 OpenTenBase 技术的展示与交流。</p>
         </div>
       </div>
-
-      <div class="foot-col">
-        <h4>本站结构</h4>
-        <ul>
-          <li><code>./game-maze/</code> 开源冒险岛</li>
-          <li><code>./game-parkour/</code> 开源跑酷</li>
-          <li><code>./game-tenbase/</code> 数据调度中心</li>
-          <li><code>./tools/</code> 发布构建脚本</li>
-        </ul>
+      <div>
+        <nav class="foot-links" aria-label="社团链接">
+          <a href="https://www.kcos.net.cn" target="_blank" rel="noopener noreferrer">
+            社团官网
+            <svg class="arw" width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://github.com/CDUESTC-OpenAtom-Open-Source-Club" target="_blank" rel="noopener noreferrer">
+            GitHub
+            <svg class="arw" width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </nav>
+        <p class="foot-meta">
+          <b>三款游戏均自托管于本站，无外部依赖</b><br />
+          成绩与昵称只保存在你自己的浏览器里
+        </p>
       </div>
-
-      <div class="foot-col">
-        <h4>上游与依据</h4>
-        <ul>
-          <li><code>./kaiyuanmaoxiandao/</code></li>
-          <li><code>./paoku/</code></li>
-          <li><code>./TenDispatch/</code></li>
-          <li>前两者逐字节复制，第三者编译为自包含单文件</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="foot-bottom">
-      <span>科成-开放原子开源社团 · 开源小游戏平台</span>
-      <span>全部页面与游戏均自托管于本站，无外部依赖</span>
     </div>
   </div>
 </footer>
-
-<script>
-/* 顶栏当前区块高亮。禁用 JS 时导航依然可用，只是不高亮。 */
-(function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.topnav a[href^="#"]'));
-  if (!links.length || !('IntersectionObserver' in window)) return;
-
-  var byId = {};
-  var sections = [];
-  links.forEach(function (link) {
-    var target = document.getElementById(link.getAttribute('href').slice(1));
-    if (!target) return;
-    byId[target.id] = link;
-    sections.push(target);
-  });
-
-  /* 判定线固定在吸顶栏下沿；取「最后一个越过判定线的区块」，
-     这样两个区块同时在视口内时结果也是确定的，不依赖 DOM 顺序。 */
-  function activate() {
-    var line = 88 + 1;
-    var current = sections[0].id;
-
-    for (var i = 0; i < sections.length; i += 1) {
-      if (sections[i].getBoundingClientRect().top <= line) current = sections[i].id;
-    }
-
-    /* 滚到底部时，判定线可能还没越过最后一个区块，此时直接判给最后一个 */
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
-      current = sections[sections.length - 1].id;
-    }
-
-    links.forEach(function (link) { link.removeAttribute('aria-current'); });
-    if (byId[current]) byId[current].setAttribute('aria-current', 'true');
-  }
-
-  var scheduled = false;
-  function schedule() {
-    if (scheduled) return;
-    scheduled = true;
-    window.requestAnimationFrame(function () { scheduled = false; activate(); });
-  }
-
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule, { passive: true });
-  activate();
-})();
-</script>
 
 </body>
 </html>
