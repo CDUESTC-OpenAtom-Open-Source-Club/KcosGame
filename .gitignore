@@ -1,0 +1,59 @@
+# ============================================================
+# KcosGame 门户仓库 · 忽略规则
+# 规则依据：AGENTS.md（本机约束文档，不上传）
+# 原则：三个游戏目录只读不跟踪；除 README.md 外任何文档不上传
+# ============================================================
+
+# ---------- 1. 三个游戏目录：只读上游，绝不纳入本仓库 ----------
+# 本仓库只做导航引用，不复制、不跟踪、不修改这三个目录里的任何内容。
+/kaiyuanmaoxiandao/
+/paoku/
+/TenDispatch/
+
+# 兜底（防止路径写法变化后意外匹配）
+kaiyuanmaoxiandao/
+paoku/
+TenDispatch/
+
+# 目录内若存在嵌套 git 仓库，也绝不能变成 gitlink / submodule 被带上来
+**/.git/
+
+# ---------- 2. 文档上传白名单：只有 README.md 可以上传 ----------
+*.md
+!/README.md
+
+# 文档类目录与常见文档格式，全部不上传
+docs/
+documentation/
+doc/
+*.doc
+*.docx
+*.pdf
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+*.rtf
+*.odt
+*.epub
+NOTES*
+CHANGELOG*
+TODO*
+
+# ---------- 3. 本机约束 / 协作文件（不上传） ----------
+/AGENTS.md
+/CLAUDE.md
+/.cursorrules
+
+# ---------- 4. 系统 / 编辑器 / 构建产物 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
+node_modules/
+dist/
+.env
+.env.*
+*.local

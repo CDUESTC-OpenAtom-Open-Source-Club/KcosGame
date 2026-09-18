@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KcosGame · 开放原子开源社团游戏集合</title>
+<meta name="description" content="电子科技大学成都学院开放原子开源社团的小游戏集合入口：开源冒险岛、开源跑酷、TenDispatch 数据调度中心。" />
+<style>
+  :root {
+    --bg: #070b14;
+    --bg-soft: #0d1424;
+    --line: rgba(120, 170, 255, 0.16);
+    --line-strong: rgba(120, 190, 255, 0.42);
+    --ink: #e8eefc;
+    --ink-soft: #9fb0cd;
+    --ink-dim: #6d7d99;
+    --accent: #47d6ff;
+    --accent-2: #8b7bff;
+    --gold: #ffcc66;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    margin: 0;
+    padding: clamp(24px, 5vw, 72px) clamp(18px, 5vw, 64px) 56px;
+    background:
+      radial-gradient(1100px 620px at 12% -8%, rgba(71, 214, 255, 0.14), transparent 62%),
+      radial-gradient(900px 560px at 88% 4%, rgba(139, 123, 255, 0.16), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: "Manrope", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1120px; margin: 0 auto; }
+
+  header { margin-bottom: clamp(32px, 5vw, 56px); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18px;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--ink-soft);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(34px, 6vw, 62px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+
+  h1 .grad {
+    background: linear-gradient(96deg, var(--accent), var(--accent-2) 62%, var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: clamp(15px, 1.6vw, 17px);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+    gap: clamp(16px, 2.2vw, 24px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px 22px 20px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: linear-gradient(168deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012));
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 18px 44px rgba(5, 12, 28, 0.6);
+  }
+
+  .tag {
+    align-self: flex-start;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: rgba(71, 214, 255, 0.12);
+    border: 1px solid rgba(71, 214, 255, 0.28);
+    color: #b6ecff;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .card h2 {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+  }
+
+  .card .meta {
+    margin-top: auto;
+    padding-top: 6px;
+    color: var(--ink-dim);
+    font-size: 12.5px;
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    word-break: break-all;
+  }
+
+  .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    margin-top: 2px;
+    padding: 10px 18px;
+    border-radius: 11px;
+    border: 1px solid rgba(71, 214, 255, 0.4);
+    background: rgba(71, 214, 255, 0.1);
+    color: #dcf6ff;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 200ms ease, border-color 200ms ease, gap 200ms ease;
+  }
+
+  .go:hover { background: rgba(71, 214, 255, 0.2); border-color: var(--accent); gap: 12px; }
+
+  .go:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .go .arrow { transition: transform 200ms ease; }
+  .go:hover .arrow { transform: translateX(3px); }
+
+  .note {
+    margin-top: clamp(32px, 5vw, 52px);
+    padding: 20px 22px;
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.018);
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .note h3 {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .note ul { margin: 0; padding-left: 20px; }
+  .note li + li { margin-top: 6px; }
+  .note code {
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #cfe6ff;
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    font-size: 12.5px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    justify-content: space-between;
+    color: var(--ink-dim);
+    font-size: 13px;
+  }
+
+  footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid transparent; }
+  footer a:hover { color: var(--accent); border-bottom-color: rgba(71, 214, 255, 0.5); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .card:hover, .card:focus-within { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">电子科技大学成都学院 · 开放原子开源社团</p>
+    <h1>KcosGame<br /><span class="grad">小游戏集合入口</span></h1>
+    <p class="lede">
+      社团做过的几款开源主题小游戏，集中在这一个页面里。挑一个，直接开玩——
+      其中两款是零依赖的单文件网页游戏，一款是完整的 90 秒数据调度竞技工程。
+    </p>
+  </header>
+
+  <main>
+    <ul class="grid">
+
+      <li class="card">
+        <span class="tag">单文件网页游戏 · v3.3</span>
+        <h2>开源冒险岛 · 数据方舟</h2>
+        <p>以 OpenTenBase 数据方舟为舞台的冒险玩法，整个游戏打包成一个 HTML 文件，双击即玩。</p>
+        <a class="go" href="./kaiyuanmaoxiandao/index.html">打开游戏 <span class="arrow">→</span></a>
+        <p class="meta">kaiyuanmaoxiandao/index.html</p>
+      </li>
+
+      <li class="card">
+        <span class="tag">单文件网页游戏</span>
+        <h2>开源跑酷</h2>
+        <p>开放原子开源基金会主题的跑酷小游戏，零依赖、零构建，键盘与触屏都能上手。</p>
+        <a class="go" href="./paoku/index%284%29.html">打开游戏 <span class="arrow">→</span></a>
+        <p class="meta">paoku/index(4).html</p>
+      </li>
+
+      <li class="card">
+        <span class="tag">React 19 + TypeScript + Vite</span>
+        <h2>TenDispatch · 数据调度中心</h2>
+        <p>90 秒、14 波的数据调度竞技：给三个 DN 分流、选分片表还是复制表，用决策速度冲 Combo 与排行榜。</p>
+        <a class="go" href="https://github.com/Lycorius03/TenDispatch" target="_blank" rel="noopener noreferrer">查看仓库 <span class="arrow">→</span></a>
+        <p class="meta">github.com/Lycorius03/TenDispatch</p>
+      </li>
+
+    </ul>
+
+    <section class="note">
+      <h3>关于本仓库</h3>
+      <ul>
+        <li>这里是<strong>导航门户</strong>：本仓库只放这一个入口页和一份 <code>README.md</code>，不包含三款游戏的源码。</li>
+        <li>两款单文件游戏按相对路径引用，需要把 <code>kaiyuanmaoxiandao/</code>、<code>paoku/</code> 放在与本页同级的位置才能直接打开。</li>
+        <li>TenDispatch 由独立仓库维护，需要 Node.js 20.19+ 或 22.12+，在其目录内 <code>npm install &amp;&amp; npm run dev</code>。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>制作方：电子科技大学成都学院开放原子开源社团</span>
+    <span>
+      <a href="https://www.openatom.org/" target="_blank" rel="noopener noreferrer">开放原子开源基金会</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/OpenTenBase/OpenTenBase" target="_blank" rel="noopener noreferrer">OpenTenBase</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
