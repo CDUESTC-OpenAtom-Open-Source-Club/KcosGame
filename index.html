@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="dark" />
 <title>科成-开放原子开源社团 · 开源小游戏平台</title>
-<meta name="description" content="科成-开放原子开源社团的三款开源小游戏：开源冒险岛、开源跑酷、OpenTenBase 数据调度中心。全部自托管，打开即玩。" />
+<meta name="description" content="科成-开放原子开源社团的三款开源小游戏：开源冒险岛、开源跑酷、OpenTenBase 数据调度中心，打开即玩。" />
 <meta name="theme-color" content="#061019" />
 <link rel="icon" type="image/png" href="./logo.png" />
 <style>
@@ -14,46 +14,37 @@
    ----------------------------------------------------------------------------
    这个页面只做一件事：把三款游戏集成到一处。除了游戏本身，不放别的板块。
 
-   视觉基线（三款游戏现有 token 的并集，不新造色相）：
+   视觉基线（取自三款游戏现有 token，不新造色相）：
      底幕深蓝  跑酷 #03060f / #070d1c   +   TenDispatch #07111F   -> --ink
      面板深蓝  TenDispatch panel #0B1728                        -> --panel
      调度青    TenDispatch cyan #32C7F4                         -> --cyan   主色
      副本金    TenDispatch gold #FFD166                         -> --gold   成就
-     查询橙    TenDispatch orange #FF9F43                       -> --orange 预警
      科技蓝    开源冒险岛 blue #2563eb 降饱和                    -> --blue   环境光
    统一规则：
      1. 主按钮一律 --cyan，不按游戏换色 —— 这是"三款游戏同属一个平台"的直接证据。
      2. 每张卡只在"封面光晕 + 封面描边"两处露出自身色相，其余完全同构。
      3. 三张卡片 DOM 骨架逐字相同，只差 data-accent（blue / cyan / gold）。
-   零依赖：无外链字体、无 CDN、无外部图片、无 emoji，双击即可打开。
    ============================================================================ */
 
 :root {
   --ink: #061019;
   --ink-2: #040b14;
   --panel: #0b1728;
-  --panel-2: #10243a;
-  --panel-3: #142c45;
   --line: #1e3a52;
   --line-2: #2e5b7d;
   --text: #dcebf7;
   --muted: #a9c2d6;
   --dim: #7e97ac;
   --cyan: #32c7f4;
-  --cyan-dim: #2a7f87;
   --cyan-ink: #041018;
   --gold: #ffd166;
-  --orange: #ff9f43;
   --blue: #5a9bff;
-  --green: #19c37d;
-  --red: #ff625c;
 
   --accent: #32c7f4;
   --accent-soft: rgba(50, 199, 244, .14);
   /* 封面统一罩一层深底：冒险岛是浅底白卡，直接嵌进来会和另外两张割裂，
      罩上这层之后三张封面就落在同一个明度上，只靠色相区分。 */
   --cover-veil: rgba(4, 11, 20, .58);
-
   --r-lg: 14px;
   --r-md: 10px;
   --r-sm: 6px;
@@ -254,25 +245,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 .hero-lede strong { color: var(--text); font-weight: 700; }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 30px;
-  margin-top: 32px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line);
-}
-.stat b {
-  display: block;
-  font-family: var(--mono);
-  font-size: 21px;
-  font-weight: 700;
-  color: var(--cyan);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -.01em;
-}
-.stat span { font-size: 12.5px; color: var(--dim); }
 
 /* 按钮：三张卡片共用同一款，颜色不随游戏变 */
 .btn {
@@ -476,16 +448,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 }
 .foot-brand b { display: block; font-size: 15.5px; }
 .foot-brand span { display: block; margin-top: 3px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--dim); }
-.foot-meta {
-  text-align: right;
-  font-size: 12.5px;
-  color: var(--dim);
-  line-height: 1.9;
-}
-.foot-meta b { color: var(--muted); font-weight: 400; }
 
-/* 社团官网与 GitHub：页脚唯一的两个站外入口。
-   纯文字链接（不用图标），离线打开时点了不通也不影响页面其余部分。 */
+/* 社团官网与 GitHub：页脚唯一的两个站外入口 */
 .foot-links { display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: flex-end; }
 .foot-links a {
   display: inline-flex;
@@ -501,7 +465,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 .foot-links a:hover { color: var(--cyan); border-bottom-color: rgba(50, 199, 244, .5); }
 .foot-links a .arw { flex: none; transition: transform .18s var(--ease); }
 .foot-links a:hover .arw { transform: translate(2px, -2px); }
-.foot-links + .foot-meta { margin-top: 10px; }
 
 /* ------------------------------------------------------------- 响应式 ---- */
 @media (max-width: 1000px) {
@@ -513,7 +476,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   .topnav a:not(:first-child) { display: none; }
   .games { grid-template-columns: minmax(0, 1fr); }
   .foot-grid { grid-template-columns: minmax(0, 1fr); }
-  .foot-meta { text-align: left; }
+  .foot-links { justify-content: flex-start; }
   .cover { height: 104px; }
 }
 
@@ -558,20 +521,13 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           <span class="kicker">OPEN SOURCE GAME PLATFORM</span>
           <h1>三款游戏，<br /><span class="grad">一个入口</span></h1>
           <p class="hero-lede">
-            开源冒险岛、开源跑酷、OpenTenBase 数据调度中心，集中在这一页里。
-            <strong>全部自托管</strong>，没有外部依赖、没有注册登录——点开哪个就直接开局。
+            开源冒险岛、开源跑酷、OpenTenBase 数据调度中心，集中在这一页里。点开哪个就直接开局。
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#games">
               选择一款游戏开始
               <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-          </div>
-
-          <div class="stats">
-            <div class="stat"><b>03</b><span>款游戏直接开玩</span></div>
-            <div class="stat"><b>00</b><span>条站外资源引用</span></div>
-            <div class="stat"><b>00</b><span>步注册或登录</span></div>
           </div>
         </div>
 
@@ -633,8 +589,8 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
             <path d="M428 152l7 5-7 5" fill="none" stroke="#ffd166" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
             <g>
               <rect x="440" y="132" width="80" height="50" rx="6" fill="#0b1728" stroke="#ffd166" opacity=".9" />
-              <text x="480" y="153" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#ffd166">直接开玩</text>
-              <text x="480" y="169" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#7e97ac">无需注册</text>
+              <text x="480" y="154" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#ffd166">精选三款</text>
+              <text x="480" y="170" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#7e97ac">KCOS</text>
             </g>
           </svg>
           <figcaption class="figure-cap">三款游戏 · 一个入口</figcaption>
@@ -714,7 +670,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           <div class="card-body">
             <h3>开源跑酷</h3>
             <p class="card-sub">OpenAtom Runner</p>
-            <p class="card-desc">沿着开源之路奔跑，收集八大开源项目徽章，跃过技术债、钻过兼容性门槛。零依赖、零构建，键盘与触屏都能上手。</p>
+            <p class="card-desc">沿着开源之路奔跑，收集八大开源项目徽章，跃过技术债、钻过兼容性门槛。键盘与触屏都能上手。</p>
           </div>
 
           <div class="cover" aria-hidden="true">
@@ -748,7 +704,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           <dl class="specs">
             <div><dt>玩法</dt><dd>横版跑酷 · 收集项目徽章</dd></div>
             <div><dt>操作</dt><dd>方向键或 WASD，触屏可划</dd></div>
-            <div><dt>记分</dt><dd>距离与徽章，本机排行榜</dd></div>
+            <div><dt>记分</dt><dd>距离与徽章</dd></div>
           </dl>
 
           <div class="card-foot">
@@ -808,7 +764,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
           <dl class="specs">
             <div><dt>玩法</dt><dd>数据调度 · 14 波决策竞技</dd></div>
             <div><dt>操作</dt><dd>点选策略卡并确认，键盘可选</dd></div>
-            <div><dt>记分</dt><dd>正确率与 Combo，本机排行榜</dd></div>
+            <div><dt>记分</dt><dd>正确率与 Combo</dd></div>
           </dl>
 
           <div class="card-foot">
@@ -846,10 +802,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
             <svg class="arw" width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </nav>
-        <p class="foot-meta">
-          <b>三款游戏均自托管于本站，页面不引用任何站外资源</b><br />
-          成绩与昵称只保存在你自己的浏览器里
-        </p>
       </div>
     </div>
   </div>
