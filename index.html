@@ -226,8 +226,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   background: var(--cyan);
   box-shadow: 0 0 10px var(--cyan);
 }
-.kicker.plain { color: var(--dim); }
-.kicker.plain::before { background: var(--line-2); box-shadow: none; }
 
 .sec-head { max-width: 68ch; margin-bottom: clamp(26px, 3.4vw, 40px); }
 .sec-head h2 { margin: 12px 0 10px; font-size: clamp(24px, 3.2vw, 34px); }
@@ -534,148 +532,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
 .flow li:last-child::before { color: var(--gold); }
 .flow-note { margin-top: 20px; color: var(--muted); font-size: 14px; }
 
-/* --------------------------------------------------------- 视觉规范 ---- */
-.spec-block + .spec-block { margin-top: 40px; }
-.spec-title {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
-}
-.spec-title h3 { font-size: 16px; }
-.spec-title span { font-size: 13px; color: var(--dim); }
-
-.palette {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
-  gap: 10px;
-}
-.swatch {
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  overflow: hidden;
-  background: var(--panel);
-}
-.swatch i { display: block; height: 46px; }
-.swatch div { padding: 9px 11px 11px; }
-.swatch b { display: block; font-family: var(--mono); font-size: 11.5px; color: var(--text); }
-.swatch span { display: block; margin-top: 2px; font-family: var(--mono); font-size: 10.5px; color: var(--dim); }
-.swatch em { display: block; margin-top: 5px; font-size: 11.5px; font-style: normal; color: var(--muted); }
-
-.type-scale { border-top: 1px solid var(--line); }
-.type-scale > div {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
-  gap: 16px;
-  align-items: baseline;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-}
-.type-scale dt { font-family: var(--mono); font-size: 11.5px; color: var(--dim); letter-spacing: .08em; }
-.type-scale dd { margin: 0; }
-.t-display { font-size: clamp(26px, 3.4vw, 36px); font-weight: 800; letter-spacing: -.022em; }
-.t-title { font-size: 24px; font-weight: 700; }
-.t-sub { font-size: 18px; font-weight: 700; }
-.t-body { font-size: 15.5px; color: var(--muted); }
-.t-label { font-size: 13px; color: var(--muted); }
-.t-mono { font-family: var(--mono); font-size: 12.5px; color: var(--cyan); }
-
-.tokens { border-top: 1px solid var(--line); }
-.tokens > div {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  align-items: center;
-}
-.tokens dt { font-family: var(--mono); font-size: 11.5px; color: var(--dim); letter-spacing: .08em; }
-.tokens dd { margin: 0; font-size: 13.5px; color: var(--muted); }
-.radii { display: flex; gap: 12px; flex-wrap: wrap; }
-.radii span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 76px; height: 44px;
-  border: 1px solid var(--line-2);
-  background: var(--panel-2);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-.space-scale { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
-.space-scale span { display: block; background: var(--panel-3); border: 1px solid var(--line-2); }
-.space-scale i { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--dim); margin-top: 4px; }
-
-.samples { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
-.sample {
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  background: linear-gradient(170deg, var(--panel), var(--ink-2));
-}
-.sample > small {
-  display: block;
-  margin-bottom: 12px;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--dim);
-}
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-.tag.on { border-color: rgba(50, 199, 244, .45); background: var(--accent-soft); color: #b6ecff; }
-
-/* --------------------------------------------------------------- 页脚 ---- */
-.footer {
-  border-top: 1px solid var(--line);
-  background: rgba(4, 11, 20, .6);
-  padding: clamp(32px, 4vw, 48px) 0 40px;
-}
-.foot-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 40px);
-}
-.foot-brand { display: flex; gap: 13px; align-items: flex-start; }
-.foot-brand img {
-  width: 46px; height: 46px; flex: none;
-  border-radius: 11px;
-  border: 1px solid var(--line-2);
-  background: var(--panel);
-  object-fit: contain;
-}
-.foot-brand b { display: block; font-size: 15.5px; }
-.foot-brand span { display: block; margin-top: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--dim); }
-.foot-brand p { margin-top: 10px; font-size: 13px; color: var(--muted); }
-.foot-col h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
-.foot-col li { font-size: 13.5px; color: var(--muted); padding: 3px 0; }
-.foot-col code { font-family: var(--mono); font-size: 12px; color: var(--text); }
-.foot-bottom {
-  margin-top: 32px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  justify-content: space-between;
-  font-size: 12.5px;
-  color: var(--dim);
-}
-
 /* ------------------------------------------------------------- 响应式 ---- */
 @media (max-width: 1000px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr); }
@@ -691,7 +547,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
   .flow { grid-template-columns: minmax(0, 1fr); }
   .foot-grid { grid-template-columns: minmax(0, 1fr); }
   .arch-list > li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .type-scale > div, .tokens > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .cover { height: 104px; }
 }
 
@@ -723,7 +578,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
       <a href="#games">三款游戏</a>
       <a href="#stack">技术底座</a>
       <a href="#workflow">开源协作</a>
-      <a href="#system">视觉规范</a>
     </nav>
   </div>
 </header>
@@ -1101,118 +955,6 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
     </div>
   </section>
 
-  <!-- ======================================================== 视觉规范 === -->
-  <section class="section" id="system">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="kicker">DESIGN SYSTEM</span>
-        <h2>把三款游戏收进一套视觉规范</h2>
-        <p>三款游戏原本各有一套配色与圆角：冒险岛是浅底大圆角，跑酷是深蓝胶囊，调度中心是深蓝直角操作台。平台的做法是取三者的交集作为底座，再把各自的差异压缩到一个色相上。</p>
-      </div>
-
-      <div class="spec-block">
-        <div class="spec-title">
-          <h3>色板</h3>
-          <span>全部取自三款游戏现存 token，没有新造色相</span>
-        </div>
-        <ul class="palette">
-          <li class="swatch"><i style="background:#061019"></i><div><b>--ink</b><span>#061019</span><em>页面底幕</em></div></li>
-          <li class="swatch"><i style="background:#0b1728"></i><div><b>--panel</b><span>#0B1728</span><em>卡面与面板</em></div></li>
-          <li class="swatch"><i style="background:#10243a"></i><div><b>--panel-2</b><span>#10243A</span><em>次级面与按钮底</em></div></li>
-          <li class="swatch"><i style="background:#1e3a52"></i><div><b>--line</b><span>#1E3A52</span><em>1px 发丝描边</em></div></li>
-          <li class="swatch"><i style="background:#dcebf7"></i><div><b>--text</b><span>#DCEBF7</span><em>正文 15.8:1</em></div></li>
-          <li class="swatch"><i style="background:#a9c2d6"></i><div><b>--muted</b><span>#A9C2D6</span><em>说明 10.4:1</em></div></li>
-          <li class="swatch"><i style="background:#7e97ac"></i><div><b>--dim</b><span>#7E97AC</span><em>元信息 6.3:1</em></div></li>
-          <li class="swatch"><i style="background:#32c7f4"></i><div><b>--cyan</b><span>#32C7F4</span><em>主色 · 按钮与焦点</em></div></li>
-          <li class="swatch"><i style="background:#ffd166"></i><div><b>--gold</b><span>#FFD166</span><em>成就与高分</em></div></li>
-          <li class="swatch"><i style="background:#ff9f43"></i><div><b>--orange</b><span>#FF9F43</span><em>负载预警</em></div></li>
-          <li class="swatch"><i style="background:#5a9bff"></i><div><b>--blue</b><span>#5A9BFF</span><em>冒险岛环境光</em></div></li>
-          <li class="swatch"><i style="background:#19c37d"></i><div><b>--green</b><span>#19C37D</span><em>正常与通过</em></div></li>
-        </ul>
-      </div>
-
-      <div class="spec-block">
-        <div class="spec-title">
-          <h3>字级</h3>
-          <span>沿用三款游戏已有的系统字体栈，不加载外部字体</span>
-        </div>
-        <dl class="type-scale">
-          <div><dt>DISPLAY</dt><dd class="t-display">三款游戏，一条流水线</dd></div>
-          <div><dt>TITLE</dt><dd class="t-title">开源冒险岛 · 数据方舟</dd></div>
-          <div><dt>SUB</dt><dd class="t-sub">OpenTenBase 数据调度中心</dd></div>
-          <div><dt>BODY</dt><dd class="t-body">正文用 15.5px 与 1.72 行高，说明文字降一级到 --muted，保证长时间阅读不累。</dd></div>
-          <div><dt>LABEL</dt><dd class="t-label">标签与辅助说明统一 13px，颜色不超过 --muted。</dd></div>
-          <div><dt>MONO</dt><dd class="t-mono">./game-tenbase/index.html</dd></div>
-        </dl>
-      </div>
-
-      <div class="spec-block">
-        <div class="spec-title">
-          <h3>间距与圆角</h3>
-          <span>8 的倍数；圆角向调度中心的直角操作台靠拢</span>
-        </div>
-        <dl class="tokens">
-          <div><dt>SPACING</dt><dd>
-            <span class="space-scale">
-              <i style="width:8px;height:8px"></i><i style="width:16px;height:16px"></i><i style="width:24px;height:24px"></i><i style="width:32px;height:32px"></i><i style="width:40px;height:40px"></i>
-            </span>
-          </dd></div>
-          <div><dt>RADII</dt><dd>
-            <span class="radii">
-              <span style="border-radius:6px">6 按钮</span>
-              <span style="border-radius:10px">10 卡片内</span>
-              <span style="border-radius:14px">14 卡片</span>
-            </span>
-          </dd></div>
-          <div><dt>HAIRLINE</dt><dd>层级只用 1px 描边与底色差表达，不用重投影。</dd></div>
-          <div><dt>MOTION</dt><dd>180 至 420 毫秒，ease-out；系统开启"减少动态效果"时全部关闭。</dd></div>
-        </dl>
-      </div>
-
-      <div class="spec-block">
-        <div class="spec-title">
-          <h3>组件样例</h3>
-          <span>主按钮在三张卡片里完全同款，颜色不随游戏变化</span>
-        </div>
-        <div class="samples">
-          <div class="sample">
-            <small>PRIMARY BUTTON</small>
-            <span class="btn btn-primary" style="width:100%">
-              开始游戏
-              <svg class="arw" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-          </div>
-          <div class="sample">
-            <small>GHOST BUTTON</small>
-            <span class="btn btn-ghost" style="width:100%">查看技术底座</span>
-          </div>
-          <div class="sample">
-            <small>TAGS</small>
-            <span class="tag on">单文件网页游戏</span>
-            <span class="tag" style="margin-left:6px">React 19 + Vite</span>
-          </div>
-          <div class="sample">
-            <small>CARD HEAD</small>
-            <span class="card-idx">01</span>
-            <span class="card-kind" style="margin-left:10px">SINGLE FILE</span>
-            <span class="dot" style="margin-left:10px" aria-hidden="true"></span>
-          </div>
-          <div class="sample">
-            <small>SPEC ROW</small>
-            <dl class="specs" style="margin:0;border-top:0">
-              <div><dt>玩法</dt><dd>拖拽拼合 · 解锁开源图鉴</dd></div>
-            </dl>
-          </div>
-          <div class="sample">
-            <small>SOURCE PATH</small>
-            <p class="src-path" style="margin:0"><b>源码目录</b> ./kaiyuanmaoxiandao/</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
 </main>
 
 <footer class="footer">
@@ -1270,20 +1012,35 @@ h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.25; letter-spacing:
     sections.push(target);
   });
 
-  var visible = {};
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      visible[entry.target.id] = entry.isIntersecting;
-    });
-    var current = null;
-    for (var i = 0; i < sections.length; i += 1) {
-      if (visible[sections[i].id]) { current = sections[i].id; break; }
-    }
-    links.forEach(function (link) { link.removeAttribute('aria-current'); });
-    if (current && byId[current]) byId[current].setAttribute('aria-current', 'true');
-  }, { rootMargin: '-88px 0px -55% 0px', threshold: 0 });
+  /* 判定线固定在吸顶栏下沿；取「最后一个越过判定线的区块」，
+     这样两个区块同时在视口内时结果也是确定的，不依赖 DOM 顺序。 */
+  function activate() {
+    var line = 88 + 1;
+    var current = sections[0].id;
 
-  sections.forEach(function (section) { observer.observe(section); });
+    for (var i = 0; i < sections.length; i += 1) {
+      if (sections[i].getBoundingClientRect().top <= line) current = sections[i].id;
+    }
+
+    /* 滚到底部时，判定线可能还没越过最后一个区块，此时直接判给最后一个 */
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      current = sections[sections.length - 1].id;
+    }
+
+    links.forEach(function (link) { link.removeAttribute('aria-current'); });
+    if (byId[current]) byId[current].setAttribute('aria-current', 'true');
+  }
+
+  var scheduled = false;
+  function schedule() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(function () { scheduled = false; activate(); });
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  activate();
 })();
 </script>
 
