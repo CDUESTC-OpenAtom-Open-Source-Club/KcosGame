@@ -40,7 +40,13 @@ NOTES*
 CHANGELOG*
 TODO*
 
-# ---------- 3. 本机约束 / 协作文件（不上传） ----------
+# ---------- 3. 发布副本目录：game-* 是本站真正对外提供的内容 ----------
+# kaiyuanmaoxiandao/、paoku/、TenDispatch/ 是只读上游，永远不跟踪；
+# 站点对外提供的是 game-* 下的派生副本（上游源码不进本仓库的历史包袱）。
+# TenDispatch 的产物是编译好的自包含单文件 index.html + logo.png，不含 dist/ 目录，
+# 因此 game-* 不需要任何反忽略规则，保持默认即可跟踪。
+
+# ---------- 4. 本机约束 / 协作文件（不上传） ----------
 /AGENTS.md
 /CLAUDE.md
 /.cursorrules
